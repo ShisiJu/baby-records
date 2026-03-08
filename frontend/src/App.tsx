@@ -1,36 +1,25 @@
-import { useEffect, useState } from 'react'
-import './App.css'
+import { App as AntdApp, ConfigProvider } from 'antd'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { RouterProvider } from 'react-router-dom'
+import { queryClient } from './lib/queryClient'
+import { router } from './router'
 
 function App() {
-  const [apiStatus, setApiStatus] = useState('checking...')
-
-  useEffect(() => {
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? '/api'
-
-    fetch(`${apiBaseUrl}/health`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`API returned ${response.status}`)
-        }
-        return response.json() as Promise<{ status?: string }>
-      })
-      .then((data) => {
-        setApiStatus(data.status ?? 'unknown')
-      })
-      .catch(() => {
-        setApiStatus('unreachable')
-      })
-  }, [])
-
   return (
-    <main className="app">
-      <h1>Baby Growth Records</h1>
-      <p>Frontend: React + Vite + TypeScript</p>
-      <div className="status-card">
-        <h2>Backend API Status</h2>
-        <p>{apiStatus}</p>
-      </div>
-    </main>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#7c3aed',
+          borderRadius: 10,
+        },
+      }}
+    >
+      <AntdApp>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </AntdApp>
+    </ConfigProvider>
   )
 }
 

@@ -1,16 +1,26 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import { AppShell } from "./layouts/AppShell";
-import { DashboardPage } from "./pages/DashboardPage";
 import { RecordsPage } from "./pages/RecordsPage";
+import { HomePage } from "./pages/HomePage";
+import { LoginPage } from "./pages/LoginPage/index";
+import { RegisterPage } from "./pages/RegisterPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <AppShell />,
     children: [
-      { index: true, element: <DashboardPage /> },
+      { index: true, element: <HomePage /> },
       { path: "records", element: <RecordsPage /> },
       { path: "*", element: <Navigate to="/" replace /> },
     ],
+  },
+  {
+    path: "/login",
+    children: [{ index: true, element: <LoginPage /> }],
+  },
+  {
+    path: "/register",
+    children: [{ index: true, element: <RegisterPage /> }],
   },
 ]);

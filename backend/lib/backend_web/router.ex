@@ -5,10 +5,16 @@ defmodule BackendWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/", BackendWeb do
+    get "/", HealthController, :show
+  end
+
   scope "/api", BackendWeb do
     pipe_through :api
 
     get "/health", HealthController, :show
+    post "/auth/register", AuthController, :register
+    post "/auth/login", AuthController, :login
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

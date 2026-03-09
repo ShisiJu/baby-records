@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router";
 import { AppShell } from "./layouts/AppShell";
 import { RecordsPage } from "./pages/RecordsPage";
 import { HomePage } from "./pages/HomePage";

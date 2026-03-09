@@ -4,7 +4,6 @@ import { Button, Card, Form, Input, Typography, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser, type RegisterInput } from "@/lib/api/account";
 import { setAuthToken } from "@/lib/api/client";
-import { queryClient } from "@/lib/queryClient";
 import { useUserInfo } from "@/hooks/useUserInfo";
 
 type RegisterFormValues = RegisterInput & {
@@ -17,34 +16,31 @@ export function RegisterPage() {
   const navigate = useNavigate();
   const { setUserInfo } = useUserInfo();
 
-  const { mutate, isPending } = useMutation(
-    {
-      mutationFn: registerUser,
-      onSuccess: (data) => {
-        setUserInfo({
-          id: data.user.id,
-          email: data.user.email,
-        });
-        setAuthToken(data.token);
+  const { mutate, isPending } = useMutation({
+    mutationFn: registerUser,
+    onSuccess: (data) => {
+      setUserInfo({
+        id: data.user.id,
+        email: data.user.email,
+      });
+      setAuthToken(data.token);
 
-        messageApi.success("Registration successful.");
-        form.resetFields();
-        navigate("/");
-      },
-      onError: (error) => {
-        const fallbackMessage = "Unable to register. Please try again.";
-        if (error instanceof AxiosError) {
-          const apiMessage =
-            (error.response?.data as { message?: string } | undefined)
-              ?.message ?? error.message;
-          messageApi.error(apiMessage || fallbackMessage);
-          return;
-        }
-        messageApi.error(fallbackMessage);
-      },
+      messageApi.success("Registration successful.");
+      form.resetFields();
+      navigate("/");
     },
-    queryClient,
-  );
+    onError: (error) => {
+      const fallbackMessage = "Unable to register. Please try again.";
+      if (error instanceof AxiosError) {
+        const apiMessage =
+          (error.response?.data as { message?: string } | undefined)?.message ??
+          error.message;
+        messageApi.error(apiMessage || fallbackMessage);
+        return;
+      }
+      messageApi.error(fallbackMessage);
+    },
+  });
 
   const onFinish = ({ email, password }: RegisterFormValues) => {
     mutate({ email, password });

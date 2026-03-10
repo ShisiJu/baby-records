@@ -5,6 +5,10 @@ defmodule BackendWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :api_auth do
+    plug BackendWeb.Plugs.AuthenticateUser
+  end
+
   scope "/", BackendWeb do
     get "/", HealthController, :show
   end
@@ -15,6 +19,13 @@ defmodule BackendWeb.Router do
     get "/health", HealthController, :show
     post "/auth/register", AuthController, :register
     post "/auth/login", AuthController, :login
+  end
+
+  scope "/api", BackendWeb do
+    pipe_through [:api, :api_auth]
+
+    get "/baby-profile/me", BabyProfileController, :show
+    post "/baby-profile", BabyProfileController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

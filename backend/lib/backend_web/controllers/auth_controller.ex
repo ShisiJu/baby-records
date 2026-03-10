@@ -40,7 +40,11 @@ defmodule BackendWeb.AuthController do
   end
 
   defp user_payload(%User{id: id, email: email}) do
-    %{id: id, email: email}
+    %{
+      id: id,
+      email: email,
+      has_baby_profile: Accounts.user_has_baby_profile?(id)
+    }
   end
 
   defp errors_from_changeset(changeset) do

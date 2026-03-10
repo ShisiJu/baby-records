@@ -15,6 +15,7 @@ defmodule BackendWeb.AuthControllerTest do
     assert %{"token" => token, "user" => user} = body
     assert is_binary(token)
     assert user["email"] == "parent@example.com"
+    assert user["has_baby_profile"] == false
   end
 
   test "login returns token for valid credentials", %{conn: conn} do
@@ -36,6 +37,7 @@ defmodule BackendWeb.AuthControllerTest do
     assert %{"token" => token, "user" => user} = body
     assert is_binary(token)
     assert user["email"] == "login@example.com"
+    assert user["has_baby_profile"] == false
   end
 
   test "login returns unauthorized for invalid credentials", %{conn: conn} do

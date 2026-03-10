@@ -6,6 +6,7 @@ defmodule Backend.Accounts.User do
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :password_hash, :string, redact: true
+    has_one :baby_profile, Backend.Accounts.BabyProfile
 
     timestamps(type: :utc_datetime)
   end

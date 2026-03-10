@@ -4,6 +4,7 @@ import { RecordsPage } from "./pages/RecordsPage";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage/index";
 import { RegisterPage } from "./pages/RegisterPage";
+import { BabyProfileSetupPage } from "./pages/BabyProfileSetupPage";
 
 export const router = createBrowserRouter([
   {
@@ -22,5 +23,9 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     children: [{ index: true, element: <RegisterPage /> }],
+  },
+  {
+    path: "/baby-profile/new",
+    children: [{ index: true, element: <BabyProfileSetupPage /> }],
   },
 ]);

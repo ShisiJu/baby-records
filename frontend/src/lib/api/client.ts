@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const AUTH_COOKIE_KEY = 'auth_token'
-const AUTH_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 7
+const AUTH_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30
 
 function readAuthTokenFromCookie(): string | null {
   if (typeof document === 'undefined') return null

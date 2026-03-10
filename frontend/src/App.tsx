@@ -3,11 +3,12 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router/dom";
 import { queryClient } from "@/lib/queryClient";
 import { router } from "@/router";
-import { UserInfoContext, type UserInfo } from "@/hooks/useUserInfo";
-import { useState } from "react";
+import { UserInfoContext } from "@/hooks/useUserInfo";
+import { usePersistentUserInfo } from "@/hooks/usePersistentUserInfo";
 
 function App() {
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const { userInfo, setUserInfo } = usePersistentUserInfo();
+
   return (
     <ConfigProvider
       theme={{

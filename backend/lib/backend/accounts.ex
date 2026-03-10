@@ -3,6 +3,8 @@ defmodule Backend.Accounts do
 
   import Ecto.Query
 
+  @user_token_max_age 60 * 60 * 24 * 30
+
   alias Backend.Accounts.BabyProfile
   alias Backend.Accounts.User
   alias Backend.Repo
@@ -28,7 +30,10 @@ defmodule Backend.Accounts do
   def authenticate_user(_, _), do: {:error, :invalid_credentials}
 
   def get_user_by_token(token) when is_binary(token) do
-    with {:ok, user_id} <- Phoenix.Token.verify(BackendWeb.Endpoint, "user_auth", token),
+    with {:ok, user_id} <-
+           Phoenix.Token.verify(BackendWeb.Endpoint, "user_auth", token,
+             max_age: @user_token_max_age
+           ),
          user when not is_nil(user) <- Repo.get(User, user_id) do
       {:ok, user}
     else
